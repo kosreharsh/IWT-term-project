@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Pizza Order</title>
+
+    <!-- bootstap-cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- material-icon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- bootstrap-js-cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+
+    <!-- style -->
+    <style>
+        .main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            margin-top: 20px;
+        }
+
+        .pizza-items {
+            grid-column: 1/2;
+        }
+
+        .grid-contain {
+            display: grid;
+            grid-template-rows: minmax(50px, 21rem);
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .cartandform {
+            grid-column: 2/3;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-auto-rows: auto;
+            gap: 1rem;
+        }
+
+        .cart {
+            justify-self: self-end;
+        }
+
+        .address-form {
+            width: 23rem;
+            justify-self: self-end;
+            align-self: self-start;
+            margin-top: 10px;
+        }
+
+        .card {
+            margin-left: 10px;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 25px;
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-3px);
+        }
+
+        #list {
+            padding-left: 16px;
+        }
+
+        #list>li {
+            margin-bottom: 6px;
+            list-style-type: upper-roman;
+            border-bottom: 2px dashed cadetblue;
+        }
+
+
+        .cartquantity {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-around;
+        }
+
+        .navtext {
+            color: white;
+            font-weight: bold;
+            font-style: italic;
+            font-size: large;
+        }
+
+        .nav-ul {
+            margin-bottom: 0px;
+        }
+
+        .nav-ul>li {
+            display: inline;
+            margin-right: 3rem;
+            text-decoration: none;
+            color: cornsilk;
+            transition: 0.3s;
+        }
+
+        .nav-ul>li>a {
+            text-decoration: none;
+        }
+
+        .nav-ul>li>a:hover {
+            letter-spacing: 4px;
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #78c3f8;
+            height: 4rem;
+            border-radius: 15px;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+            background-color: #4eb2fa;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            border-radius: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- navbar -->
+        <nav>
+
+            <a class="navbar-brand " style="color:white;font-weight:bolder;font-style:italic;margin-left:2.5rem;"
+                href="#">
+                PizzaHut
+            </a>
+            <div>
+                <ul class="nav-ul">
+                    <li>
+                        <a class=" navtext" href="#">Home</a>
+                    </li>
+                    <li>
+                        <a class=" navtext" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navtext" href="#">Contact</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </nav>
+
+        <!-- alert -->
+        <div class="alert alert-success" id="al" style="display:none;margin:8px;" role="alert">
+            Your Order is successfully placed.
+        </div>
+
+        <!-- main -->
+        <div class="main">
+
+            <!-- pizza-items -->
+            <div class="pizza-items">
+                <div class="grid-contain">
+                    <div class="card " style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/new_margherita_2502.jpg" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="Margherita" data-price="150">
+                            <h3 class="card-title">Margherita</h3>
+                            <p class="card-subtitle">Classic delight with 100% real mozzarella cheese</p>
+                            <h4 class="card-text mt-2">Rs.150</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px">Add to cart</a>
+                    </div>
+                    <div class="card " style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/farmhouse.png" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="FarmHouse" data-price="200">
+                            <h3 class="card-title">Farmhouse</h3>
+                            <p class="card-subtitle ">Delightful combination of onion, capsicum, grilled mushroom
+                            </p>
+                            <h4 class="card-text mt-2">Rs.200</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px;">Add to cart</a>
+                    </div>
+                    <div class="card" style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/new_peppy_paneer.jpg" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="Peppy Paneer" data-price="250">
+                            <h3 class="card-title">Peppy Paneer</h3>
+                            <p class="card-subtitle">Flavorful trio of juicy paneer, crisp capsicum with spicy paprika
+                            </p>
+                            <h4 class="card-text mt-2">Rs.250</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px;">Add to cart</a>
+                    </div>
+                    <div class="card" style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/new_veg_extravaganza.jpg" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="Veg Extravaganza" data-price="450">
+                            <h3 class="card-title">Veg Extravaganza</h3>
+                            <p class="card-subtitle">Black olives, capsicum, onion, grilled mushroom, corn, tomato,
+                                jalapeno
+                            </p>
+                            <h4 class="card-text mt-2">Rs.450</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px;">Add to cart</a>
+                    </div>
+                    <div class="card" style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/new_veggie_paradise.jpg" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="Veggie Paradise" data-price="400">
+                            <h3 class="card-title">Veggie Paradise</h3>
+                            <p class="card-subtitle">The awesome foursome! Golden corn, black olives, capsicum, red
+                                paprika
+                            </p>
+                            <h4 class="card-text mt-2">Rs.400</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px;">Add to cart</a>
+                    </div>
+                    <div class="card" style="width: 17rem;">
+                        <img src="https://images.dominos.co.in/new_cheese_n_corn.jpg" class="card-img-top" alt="...">
+
+                        <div class="card-body" data-name="Cheese n Corn" data-price="300">
+                            <h3 class="card-title">Cheese n Corn</h3>
+                            <p class="card-subtitle">A delectable combination of sweet & juicy golden corn
+                            </p>
+                            <h4 class="card-text mt-2">Rs.300</h4>
+                        </div>
+                        <a href="#" onclick="addElement(this)" class="btn btn-outline-warning"
+                            style=" border-radius: 15px;margin:5px 10px;">Add to cart</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="cartandform">
+                <!-- cart -->
+                <div class="cart">
+                    <div class="card " style="width:23rem;height:fit-content;">
+                        <div class="card-body">
+                            <h4 style="color:coral;text-align: center;">Your cart</h4><br>
+                            <ul id="list">
+                            </ul>
+                            <div class="card-footer">
+                                <h5 style="display:none;color:rgb(10, 250, 10);" id="discost">Total cost: Rs. <span
+                                        id="cost"></span></h5>
+                                <h5 id="noitem" style="color:darkgray;">You don't have any item </h5>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- address-form -->
+                <div class="address-form card" id="aform" style="display:none;height:fit-content;">
+                    <div class="card-body">
+                        <h5 style="text-align: center;color:steelblue;">Address:</h5>
+                        <h5 id="ahide" style="display: none;text-align: center;"></h5><i id="chide"
+                            style="display: none;" class="material-icons">
+                            check
+                        </i>
+                        <form id="addressform">
+                            <label for="Location" class="form-label">Location:</label>
+                            <input class="form-control mb-2" list="datalistOptions" id="Location"
+                                placeholder="Type to search...">
+                            <datalist id="datalistOptions">
+                                <option value="Raipur">
+                                <option value="Bhilai">
+                                <option value="Sarona">
+                                <option value="Naya Raipur">
+                            </datalist>
+                            <label for="fname">Name: </label>
+                            <input type="text" id="fname" class="form-control mb-2" placeholder="Enter Your Name...">
+                            <label for="address">Address: </label>
+                            <input type="text" id="address" class="form-control mb-2" placeholder="Enter Address...">
+                            <label for="mobile">Mobile No. </label>
+                            <input type="tel" class="form-control mb-2" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                                placeholder="Enter Mobile NO...">
+                            <input type="submit" onclick="ads()" value="Submit" class="btn btn-outline-primary"
+                                style="width:-webkit-fill-available;border-radius: 25px;margin:5px 0px;">
+                        </form>
+                        <a type="submit" onclick="orderplaced()" class="btn btn-outline-success mt-2 "
+                            style="width:-webkit-fill-available;border-radius: 25px;" id="pay">Pay
+                            Now</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            Copyright 2021. All Rights Reserved.
+        </div>
+
+    </div>
+
+    <!-- script -->
+    <script>
+
+        // add-pizza-to-cart
+        function addElement(node) {
+            var addli = document.getElementById("list");
+            var ele = document.createElement("li");
+            ele.insertAdjacentHTML("afterbegin", "<h5 style='color:slateblue;'></h5><div class='cartquantity'><h7 >Quantity:</h7><a onclick='dec(this)'><span class='material-icons' >remove</span></a><h6>1</h6><a onclick='inc(this)''><span class='material-icons'>add</span></a><label for='size' style='margin:8px;'>Size:  </label><select onchange='sizeprice(this)' name='size' class='form-select form-select-sm mb-3' aria-label='.form-select-lg example' id='size1'><option value='regular' data-price='0'>Regular</option><option value='medium' data-price='20'>Medium</option><option value='large' data-price='30'>Large</option></select></div><h6 style='margin-top:3px;'>Price: Rs.<span></span></h6>");
+            var pName = node.parentNode.childNodes[3].dataset.name;
+            var pPrice = node.parentNode.childNodes[3].dataset.price;
+            ele.firstChild.innerText = pName;
+            ele.childNodes[2].childNodes[1].innerText = pPrice;
+            ele.childNodes[2].childNodes[1].dataset.price = pPrice;
+            addli.append(ele);
+            document.getElementById("discost").style.removeProperty("display");
+            document.getElementById("aform").style.removeProperty("display");
+            document.getElementById("noitem").setAttribute("style", "display:none;");
+            totalcost();
+        }
+
+        // set-prize-acc-to-size
+        function sizeprice(node) {
+            var e = document.getElementById("size1");
+            var price = e.options[e.selectedIndex].dataset.price;
+            console.log(price);
+            var liNode = node.parentNode.parentNode;
+            var priceElement = liNode.childNodes[2].childNodes[1];
+            console.log(priceElement);
+            priceElement.innerText = (Number(liNode.childNodes[2].childNodes[1].dataset.price) + Number(price)) * Number(liNode.childNodes[1].childNodes[2].innerText);
+            totalcost();
+
+
+        }
+
+        //total-price-calculation
+        function totalcost() {
+            var myNodelist = document.getElementById("list").childNodes;
+            var i, cost = 0;
+            for (i = 1; i < myNodelist.length; i++) {
+
+                cost += Number(myNodelist[i].childNodes[2].childNodes[1].innerText);
+            }
+            document.getElementById("cost").innerText = cost;
+        }
+
+        // increase quantity
+        function inc(node) {
+            var qvalue = node.parentNode.childNodes[2];
+            var price = node.parentNode.parentNode.childNodes[2].childNodes[1];
+            var e = document.getElementById("size1");
+            var sprice = e.options[e.selectedIndex].dataset.price;
+
+            qvalue.innerHTML = Number(qvalue.innerHTML) + 1;
+            price.innerText = Number(qvalue.innerText) * (Number(price.dataset.price) + Number(sprice));
+            totalcost();
+        }
+
+        // decrease quantity
+        function dec(node) {
+            var qvalue = node.parentNode.childNodes[2];
+            var price = node.parentNode.parentNode.childNodes[2].childNodes[1];
+            var e = document.getElementById("size1");
+            var sprice = e.options[e.selectedIndex].dataset.price;
+            qvalue.innerHTML = Number(qvalue.innerHTML) - 1;
+            price.innerText = Number(qvalue.innerText) * (Number(price.dataset.price) + Number(sprice));
+            if (Number(qvalue.innerHTML) === 0) {
+                removeli(node.parentNode);
+            }
+            totalcost();
+        }
+
+        // remove-pizza-from-cart
+        function removeli(node) {
+            console.log(node.parentNode);
+            node.parentNode.remove();
+            totalcost();
+        }
+
+        // after-address-sumbit-handler
+        function ads() {
+            document.getElementById("addressform").setAttribute("style", "display:none;");
+            var nameValue = document.getElementById("address").value;
+            var h = document.getElementById("ahide");
+            h.style.removeProperty("display");
+            document.getElementById("chide").style.display = "inline-block";
+            h.innerHTML = nameValue;
+            // h.innerHTML = h.innerHTML + <span class='material-icons'>check</span>;
+        }
+
+        // alert-order-placed
+        function orderplaced() {
+            const myNode = document.getElementById("list");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.lastChild);
+            }
+            document.getElementById("al").style.removeProperty("display");
+            document.getElementById("noitem").style.removeProperty("display");
+            document.getElementById("discost").setAttribute("style", "display:none;");
+            document.getElementById("aform").setAttribute("style", "display:none;");
+            document.getElementById("chide").style.display = "none";
+            document.getElementById("ahide").setAttribute("style", "display:none;");
+            document.getElementById("addressform").style.removeProperty("display");
+        }
+
+    </script>
+
+</body>
+
+</html>
